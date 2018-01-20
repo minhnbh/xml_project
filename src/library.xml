@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE library [
+<!ELEMENT library (book)*>
+<!ELEMENT book (booktitle, author, price, address)+  >
+<!ELEMENT booktitle (#PCDATA)>
+<!ELEMENT author (#PCDATA)>
+<!ELEMENT price (#PCDATA)>
+<!ELEMENT address EMPTY>
+<!ATTLIST address id CDATA #REQUIRED>
+<!ENTITY HCM "123 Innovation Building, HCM" >
+<!ENTITY HN "4 Detech Building, HN" >
+<!ENTITY DN "1 FPT Complex, DN" >
+]>
+<!--<!DOCTYPE library SYSTEM "standalone.dtd">-->
+<library xmlns="http://fpt.edu.vn"
+         xmlns:bookstore="http://fap.fpt.edu.vn">
+    <book>
+        <booktitle>
+            Conan
+            <discount>15%</discount>
+        </booktitle>
+        <author>ABC</author>
+        <price>16.000 VND</price>
+        <address id="&HN;"></address>
+        <bookstore:biography>
+            <html>
+                <head>
+                    <title>Conan Comic</title>
+                </head>
+                <body>
+                    <p>
+                        abc123
+                    </p>
+                </body>
+            </html>
+        </bookstore:biography>
+    </book>
+    <book>
+        <booktitle>Doraemon</booktitle>
+        <author>&lt;XYZ</author>
+        <price>20.000 VND</price>
+        <address id="&HCM;"></address>
+    </book>
+    <book>
+        <booktitle>Alibaba</booktitle>
+        <author>123%!@</author>
+        <price>30.000 VND</price>
+        <address id="&DN;"></address>
+    </book>
+</library>
