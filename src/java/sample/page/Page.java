@@ -15,6 +15,7 @@ public class Page {
     public static final String loginServlet = "LoginServlet";
     public static final String dashboardServlet = "DashboardServlet";
     public static final String logoutServlet = "LogoutServlet";
+    public static final String layoutServlet = "LayoutServlet";
     
     public static final String loginPage = "Login.html";
     public static final String dashboard = "Dashboard.jsp";

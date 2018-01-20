@@ -18,10 +18,7 @@
         <title>Dashboard</title>
     </head>
     <body>
-        <div class="row" style="background-color: black; color: white; padding: 11px; margin-top: -8px;">
-            <div style="width: 25%">
-
-            </div>
+        <div class="row header">
             <div style="margin-left: 75%; width: 25%; text-align: right">
                 Xin chào <%= session.getAttribute("USERNAME")%> &nbsp;
                 <i class="fa fa-caret-down"></i>&nbsp;|&nbsp;
@@ -35,6 +32,7 @@
                     <li><hr></li>
                     <li><a>Trang chủ</a></li>
                         <%
+                            String view_content = (String) session.getAttribute("CONTENT_VIEW");
                             List<CategoryDTO> parentCategories = (List<CategoryDTO>) session.getAttribute("PARENT_CATEGORIES");
                             Map<Integer, List<CategoryDTO>> childCategories = (HashMap<Integer, List<CategoryDTO>>) session.getAttribute("CHILD_CATEGORIES");
                             for (Map.Entry<Integer, List<CategoryDTO>> entry : childCategories.entrySet()) {
@@ -64,11 +62,12 @@
                 </ul>
             </div>
             <!-- content -->
-            <div style="width: 81%; margin-left: 19%; padding-top: 2%; display: inline-flex" id="content"></div>
+            <div style="width: 81%; margin-left: 19%; padding-top: 2%;" id="content"></div>
             <script>
 //                    document.getElementById("content").innerHTML='<object style="width: 100%" type="text/html" data="views/product/ShowProduct.jsp"></object>'
+                var view_url = "<%= view_content %>";
                 xhr = new XMLHttpRequest();
-                xhr.open("GET", <%= session.getAttribute("CONTENT_VIEW") %>, true);
+                xhr.open("GET", view_url, true);
                 xhr.setRequestHeader('Content-type', 'text/html');
                 xhr.send();
                 xhr.onreadystatechange = function () {

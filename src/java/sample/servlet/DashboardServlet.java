@@ -49,41 +49,16 @@ public class DashboardServlet extends HttpServlet {
 
             HttpSession session = request.getSession();
             ProductDAO productDAO = new ProductDAO();
-            CategoryDAO categoryDAO = new CategoryDAO();
 
             // Get products
-            if (sCategoryId != null) {
-                productDAO.getProductByCategory(sCategoryId);
-            } else {
-                productDAO.getAllProduct();
-            }
+            productDAO.getAllProduct();
 
             List<ProductDTO> productList = productDAO.getProductList();
             session.setAttribute("PRODUCT_LIST", productList);
-
-            // Get parent categories
-            List<CategoryDTO> parentCategories = new ArrayList<>();
-            if (session.getAttribute("PARENT_CATEGORIES") == null) {
-                categoryDAO.getParentCategory();
-                parentCategories = categoryDAO.getCategoryList();
-                session.setAttribute("PARENT_CATEGORIES", parentCategories);
-            }
-
-            // Get child categories
-            if (session.getAttribute("CHILD_CATEGORIES") == null) {
-                Map<Integer, List<CategoryDTO>> categoryMap = new HashMap<Integer, List<CategoryDTO>>();
-
-                for (CategoryDTO category : parentCategories) {
-                    categoryDAO.getChildCategory(category.getId());
-                    List<CategoryDTO> childCategory = categoryDAO.getCategoryList();
-                    if (childCategory.size() > 0) {
-                        categoryMap.put(category.getId(), childCategory);
-                        session.setAttribute("CHILD_CATEGORIES", categoryMap);
-                    }
-                }
-            }
+            
             session.setAttribute("CONTENT_VIEW", "views/product/ShowProduct.jsp");
-            String url = Page.layoutDashboard;
+            String url = Page.layoutServlet;
+            
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         } catch (NamingException ex) {

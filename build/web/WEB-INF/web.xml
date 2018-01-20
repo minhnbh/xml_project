@@ -20,6 +20,10 @@
         <servlet-name>CategoryServlet</servlet-name>
         <servlet-class>sample.servlet.CategoryServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LayoutServlet</servlet-name>
+        <servlet-class>sample.servlet.LayoutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ProcessServlet</servlet-name>
         <url-pattern>/ProcessServlet</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>CategoryServlet</servlet-name>
         <url-pattern>/CategoryServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LayoutServlet</servlet-name>
+        <url-pattern>/LayoutServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

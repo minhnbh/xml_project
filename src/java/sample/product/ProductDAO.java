@@ -19,13 +19,13 @@ import sample.utilities.DBUtils;
  * @author MinhNBHSE61805
  */
 public class ProductDAO {
-    
+
     private List<ProductDTO> productList;
-    
+
     public List<ProductDTO> getProductList() {
         return productList;
     }
-    
+
     public void getAllProduct() throws NamingException, SQLException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -41,7 +41,7 @@ public class ProductDAO {
                     String product_name = rs.getString("product_name");
                     int category_id = rs.getInt("category_id");
                     String description = rs.getString("description");
-                    double price = (double) rs.getInt("price");
+                    String price = (String) rs.getString("price");
                     String friendly_url = rs.getString("friendly_url");
                     String warranty = rs.getString("warranty");
                     String create_date = rs.getString("create_date");
@@ -65,7 +65,7 @@ public class ProductDAO {
             }
         }
     }
-    
+
     public void getProductByCategory(String categoryId) throws NamingException, SQLException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -82,7 +82,7 @@ public class ProductDAO {
                     String product_name = rs.getString("product_name");
                     int category_id = rs.getInt("category_id");
                     String description = rs.getString("description");
-                    double price = (double) rs.getInt("price");
+                    String price = (String) rs.getString("price");
                     String friendly_url = rs.getString("friendly_url");
                     String warranty = rs.getString("warranty");
                     String create_date = rs.getString("create_date");

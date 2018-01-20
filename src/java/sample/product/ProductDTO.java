@@ -14,7 +14,7 @@ public class ProductDTO {
     private String product_name;
     private int category_id;
     private String description;
-    private double price;
+    private String price;
     private String friendly_url;
     private String warranty;
     private String create_date;
@@ -23,7 +23,7 @@ public class ProductDTO {
     public ProductDTO() {
     }
 
-    public ProductDTO(int id, String product_name, int category_id, String description, double price, String friendly_url, String warranty, String create_date, String update_date) {
+    public ProductDTO(int id, String product_name, int category_id, String description, String price, String friendly_url, String warranty, String create_date, String update_date) {
         this.id = id;
         this.product_name = product_name;
         this.category_id = category_id;
@@ -63,11 +63,11 @@ public class ProductDTO {
         this.description = description;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
