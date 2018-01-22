@@ -16,11 +16,16 @@ and open the template in the editor.
 
 .product_row_heading {
     border: solid 1px;
-    padding: 10px;
     font-weight: bold;
     background-color: lightgray;
     color: black;
     border: solid 1px lightgray;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.product_row_heading h3 {
+    margin: 15px
 }
 
 .product {
@@ -50,4 +55,9 @@ and open the template in the editor.
 .product_image img {
     width: 100%;
     height: 100%;
+}
+
+section {
+    border: solid 2px lightgray;
+    margin-top: 15px;
 }

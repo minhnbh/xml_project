@@ -6,6 +6,8 @@
 package sample.product;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,7 +34,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Product.findByFriendlyUrl", query = "SELECT p FROM Product p WHERE p.friendlyUrl = :friendlyUrl")
     , @NamedQuery(name = "Product.findByWarranty", query = "SELECT p FROM Product p WHERE p.warranty = :warranty")
     , @NamedQuery(name = "Product.findByCreateDate", query = "SELECT p FROM Product p WHERE p.createDate = :createDate")
-    , @NamedQuery(name = "Product.findByUpdateDate", query = "SELECT p FROM Product p WHERE p.updateDate = :updateDate")})
+    , @NamedQuery(name = "Product.findByUpdateDate", query = "SELECT p FROM Product p WHERE p.updateDate = :updateDate")
+    , @NamedQuery(name = "Product.findByQuantity", query = "SELECT p FROM Product p WHERE p.quantity = :quantity")
+    , @NamedQuery(name = "Product.findBySalePrice", query = "SELECT p FROM Product p WHERE p.salePrice = :salePrice")
+    , @NamedQuery(name = "Product.findBySoldProduct", query = "SELECT p FROM Product p WHERE p.soldProduct = :soldProduct")})
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,6 +61,12 @@ public class Product implements Serializable {
     private String createDate;
     @Column(name = "update_date", length = 50)
     private String updateDate;
+    @Column(name = "quantity")
+    private Integer quantity;
+    @Column(name = "sale_price", length = 50)
+    private String salePrice;
+    @Column(name = "sold_product")
+    private Integer soldProduct;
 
     public Product() {
     }
@@ -136,6 +147,30 @@ public class Product implements Serializable {
         this.updateDate = updateDate;
     }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(String salePrice) {
+        this.salePrice = salePrice;
+    }
+
+    public Integer getSoldProduct() {
+        return soldProduct;
+    }
+
+    public void setSoldProduct(Integer soldProduct) {
+        this.soldProduct = soldProduct;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -160,5 +195,4 @@ public class Product implements Serializable {
     public String toString() {
         return "sample.product.Product[ id=" + id + " ]";
     }
-    
 }

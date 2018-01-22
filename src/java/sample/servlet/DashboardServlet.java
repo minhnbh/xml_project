@@ -22,6 +22,7 @@ import javax.servlet.http.HttpSession;
 import sample.category.CategoryDAO;
 import sample.category.CategoryDTO;
 import sample.page.Page;
+import sample.product.Product;
 import sample.product.ProductDAO;
 import sample.product.ProductDTO;
 
@@ -53,23 +54,27 @@ public class DashboardServlet extends HttpServlet {
             // Get products
             productDAO.getAllProduct();
 
-            List<ProductDTO> productList = productDAO.getProductList();
+            List<Product> productList = productDAO.getProductList();
             session.setAttribute("PRODUCT_LIST", productList);
             
             productDAO.getLatestProduct();
-            List<ProductDTO> latestProduct = productDAO.getProductList();
-            session.setAttribute("PRODUCT_LIST", latestProduct);
+            List<Product> latestProduct = productDAO.getProductList();
+            session.setAttribute("LATEST_PRODUCT", latestProduct);
+            
+            productDAO.getHotProduct();
+            List<Product> hotProduct = productDAO.getProductList();
+            session.setAttribute("HOT_PRODUCT", hotProduct);
+            
+            productDAO.getSaleProduct();
+            List<Product> saleProduct = productDAO.getProductList();
+            session.setAttribute("SALE_PRODUCT", saleProduct);
             
             session.setAttribute("CONTENT_VIEW", "views/product/ShowProduct.jsp");
             String url = Page.layoutServlet;
             
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
-        } catch (NamingException ex) {
-            log("DashboardServlet: NamingException");
-        } catch (SQLException ex) {
-            log("DashboardServlet: SQLException");
-        }
+        }    
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
