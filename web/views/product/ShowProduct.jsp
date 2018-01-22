@@ -4,35 +4,47 @@
     Author     : MinhNBHSE61805
 --%>
 
+<%@page import="sample.product.Product"%>
 <%@page import="sample.product.ProductDTO"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <link rel="stylesheet" href="assets/product/ProductStyle.css">
 <%
-    List<ProductDTO> productList = (List<ProductDTO>) session.getAttribute("PRODUCT_LIST");
+    List<Product> productList = (List<Product>) session.getAttribute("PRODUCT_LIST");
 %>
 
-<div class="row product_row">
-    <%
-        int count = 0;
-        if (productList != null && productList.size() > 0) {
-            for (ProductDTO product : productList) {
-    %>
-    <div class="product">
-        <h3><%= product.getProduct_name()%></h3>
-        <%= product.getPrice()%>
+<section>
+    <div class="row product_row_heading">
+        <div style="width: 100%">
+            Sản phẩm mới
+        </div>
     </div>
-    <%
-        count++;
-        if (count % 4 == 0) {
-    %>
-</div>
-<div class="row product_row">
-    <%
+    <div class="row product_row">
+        <%
+            int count = 0;
+            if (productList != null && productList.size() > 0) {
+                for (Product product : productList) {
+        %>
+        <div class="product">
+            <div class="product_image"><img src="assets/images/pg27vq.png" /></div>
+            <h3 class="product_title"><%= product.getProductName()%></h3>
+            <h4 class="product_price"><%= product.getPrice()%></h4>
+        </div>
+        <%
+            count++;
+            if (count % 5 == 0) {
+        %>
+    </div>
+    <div class="row product_row">
+        <%
+                    }
+                }
+                while (count % 5 != 0) {
+                    out.println("<div class='product'></div>");
+                    count++;
                 }
             }
-        }
-    %>
-</div>
-
+        %>
+    </div>
+</section>

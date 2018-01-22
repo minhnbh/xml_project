@@ -56,6 +56,10 @@ public class DashboardServlet extends HttpServlet {
             List<ProductDTO> productList = productDAO.getProductList();
             session.setAttribute("PRODUCT_LIST", productList);
             
+            productDAO.getLatestProduct();
+            List<ProductDTO> latestProduct = productDAO.getProductList();
+            session.setAttribute("PRODUCT_LIST", latestProduct);
+            
             session.setAttribute("CONTENT_VIEW", "views/product/ShowProduct.jsp");
             String url = Page.layoutServlet;
             

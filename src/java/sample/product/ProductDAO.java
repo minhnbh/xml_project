@@ -5,27 +5,61 @@
  */
 package sample.product;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.NamingException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import sample.utilities.DBUtils;
 
 /**
  *
  * @author MinhNBHSE61805
  */
-public class ProductDAO {
+public class ProductDAO implements Serializable{
 
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReviewJavaWebPU");
+    EntityManager em = emf.createEntityManager();
+    
+    public void persist(Object object) {
+        try {
+            em.getTransaction().begin();
+            em.persist(object);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+            em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }
+    }
+    
     private List<ProductDTO> productList;
 
     public List<ProductDTO> getProductList() {
         return productList;
     }
 
+    public void getLatestProduct() {
+        String jpql = "SELECT p FROM Product p";
+        Query query = em.createQuery(jpql);
+        try {
+            productList = new ArrayList<>();
+            productList = query.setMaxResults(5).getResultList();
+        } catch(Exception e) {
+            
+        }
+    }
+    
     public void getAllProduct() throws NamingException, SQLException {
         Connection con = null;
         PreparedStatement stm = null;

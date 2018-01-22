@@ -6,7 +6,6 @@
 package sample.product;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,9 +46,8 @@ public class Product implements Serializable {
     private Integer categoryId;
     @Column(name = "description", length = 255)
     private String description;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "price", precision = 19, scale = 4)
-    private BigDecimal price;
+    @Column(name = "price", length = 50)
+    private String price;
     @Column(name = "friendly_url", length = 50)
     private String friendlyUrl;
     @Column(name = "warranty", length = 50)
@@ -98,11 +96,11 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public BigDecimal getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
