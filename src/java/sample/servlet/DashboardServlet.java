@@ -20,11 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import sample.category.CategoryDAO;
-import sample.category.CategoryDTO;
 import sample.page.Page;
 import sample.product.Product;
 import sample.product.ProductDAO;
-import sample.product.ProductDTO;
 
 /**
  *

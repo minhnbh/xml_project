@@ -1,8 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <filter>
+        <filter-name>ProductFilter</filter-name>
+        <filter-class>sample.servlet.ProductFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ProductFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <servlet-name>ProductServlet</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <servlet>
+        <servlet-name>example</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet>
         <servlet-name>ProcessServlet</servlet-name>
         <servlet-class>sample.servlet.ProcessServlet</servlet-class>
+        <servlet>
+            <servlet-name>example</servlet-name>
+            <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+            <load-on-startup>1</load-on-startup>
+        </servlet>
     </servlet>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
@@ -23,6 +43,10 @@
     <servlet>
         <servlet-name>LayoutServlet</servlet-name>
         <servlet-class>sample.servlet.LayoutServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductServlet</servlet-name>
+        <servlet-class>sample.servlet.ProductServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ProcessServlet</servlet-name>
@@ -47,6 +71,10 @@
     <servlet-mapping>
         <servlet-name>LayoutServlet</servlet-name>
         <url-pattern>/LayoutServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductServlet</servlet-name>
+        <url-pattern>/ProductServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

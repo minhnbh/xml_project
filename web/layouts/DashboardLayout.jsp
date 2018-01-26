@@ -4,9 +4,9 @@
     Author     : MinhNBHSE61805
 --%>
 
+<%@page import="sample.category.Category"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
-<%@page import="sample.category.CategoryDTO"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -33,22 +33,22 @@
                     <li><a>Trang chủ</a></li>
                         <%
                             String view_content = (String) session.getAttribute("CONTENT_VIEW");
-                            List<CategoryDTO> parentCategories = (List<CategoryDTO>) session.getAttribute("PARENT_CATEGORIES");
-                            Map<Integer, List<CategoryDTO>> childCategories = (HashMap<Integer, List<CategoryDTO>>) session.getAttribute("CHILD_CATEGORIES");
-                            for (Map.Entry<Integer, List<CategoryDTO>> entry : childCategories.entrySet()) {
+                            List<Category> parentCategories = (List<Category>) session.getAttribute("PARENT_CATEGORIES");
+                            Map<Integer, List<Category>> childCategories = (HashMap<Integer, List<Category>>) session.getAttribute("CHILD_CATEGORIES");
+                            for (Map.Entry<Integer, List<Category>> entry : childCategories.entrySet()) {
                                 System.out.println(entry.getValue().size());
                             }
                             if (parentCategories != null && parentCategories.size() > 0) {
-                                for (CategoryDTO category : parentCategories) {
-                                    List<CategoryDTO> childCategory = childCategories.get(category.getId());
+                                for (Category category : parentCategories) {
+                                    List<Category> childCategory = childCategories.get(category.getId());
                         %>
-                    <li><a href="javascript:void(0)"><%= category.getCategory_name()%></a>
+                    <li><a href="javascript:void(0)"><%= category.getCategoryName()%></a>
                         <ul class="childCategory">
                             <%
                                 if (childCategory != null && childCategory.size() > 0) {
-                                    for (CategoryDTO child : childCategory) {
+                                    for (Category child : childCategory) {
                             %>
-                            <li><a href="javascript:void(0)"><%= child.getCategory_name()%></a></li>
+                            <li><a href="ProductServlet"><%= child.getCategoryName()%></a></li>
                                 <%
                                         }
                                     }

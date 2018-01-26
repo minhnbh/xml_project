@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sample.category.Category;
 import sample.category.CategoryDAO;
-import sample.category.CategoryDTO;
 import sample.page.Page;
 
 /**
@@ -49,7 +49,7 @@ public class CategoryServlet extends HttpServlet {
             CategoryDAO categoryDAO = new CategoryDAO();
             
             // Get parent categories
-            List<CategoryDTO> parentCategories = new ArrayList<>();
+            List<Category> parentCategories = new ArrayList<>();
             if (session.getAttribute("PARENT_CATEGORIES") == null) {
                 categoryDAO.getParentCategory();
                 parentCategories = categoryDAO.getCategoryList();
@@ -58,11 +58,11 @@ public class CategoryServlet extends HttpServlet {
 
             // Get child categories
             if (session.getAttribute("CHILD_CATEGORIES") == null) {
-                Map<Integer, List<CategoryDTO>> categoryMap = new HashMap<Integer, List<CategoryDTO>>();
+                Map<Integer, List<Category>> categoryMap = new HashMap<Integer, List<Category>>();
 
-                for (CategoryDTO category : parentCategories) {
+                for (Category category : parentCategories) {
                     categoryDAO.getChildCategory(category.getId());
-                    List<CategoryDTO> childCategory = categoryDAO.getCategoryList();
+                    List<Category> childCategory = categoryDAO.getCategoryList();
                     if (childCategory.size() > 0) {
                         categoryMap.put(category.getId(), childCategory);
                         session.setAttribute("CHILD_CATEGORIES", categoryMap);

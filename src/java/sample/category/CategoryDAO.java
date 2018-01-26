@@ -11,7 +11,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.NamingException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import sample.utilities.DBUtils;
 
 /**
@@ -19,78 +25,49 @@ import sample.utilities.DBUtils;
  * @author MinhNBHSE61805
  */
 public class CategoryDAO {
-    
-    private List<CategoryDTO> categoryList;
-    
-    public List<CategoryDTO> getCategoryList() {
-        return categoryList;
-    }
-    
-    public void getParentCategory() throws SQLException, NamingException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
+
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReviewJavaWebPU");
+    EntityManager em = emf.createEntityManager();
+
+    public void persist(Object object) {
         try {
-            con = DBUtils.getConnection();
-            if (con != null) {
-                String sql = "SELECT * FROM Category WHERE parent_category = 0";
-//                stm.setString(0, "0");
-                stm = con.prepareStatement(sql);
-                rs = stm.executeQuery();
-                while (rs.next()) {
-                    int id = rs.getInt("id");
-                    String category_name = rs.getString("category_name");
-                    int parent_category = rs.getInt("parent_category");
-                    CategoryDTO dto = new CategoryDTO(id, category_name, parent_category);
-                    if (categoryList == null) {
-                        categoryList = new ArrayList<>();
-                    }
-                    categoryList.add(dto);
-                }
-            }
+            em.getTransaction().begin();
+            em.persist(object);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+            em.getTransaction().rollback();
         } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+            em.close();
         }
     }
-    
-    public void getChildCategory(int parentId) throws NamingException, SQLException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        categoryList = new ArrayList<>();
+
+    private List<Category> categoryList;
+
+    public List<Category> getCategoryList() {
+        return categoryList;
+    }
+
+    public void getParentCategory() throws SQLException, NamingException {
+        String jpql = "SELECT c FROM Category c WHERE c.parentCategory = 0";
+        Query query = em.createQuery(jpql);
         try {
-            con = DBUtils.getConnection();
-            if (con != null) {
-                String sql = "SELECT * FROM Category WHERE parent_category = ?";
-                stm = con.prepareStatement(sql);
-                stm.setString(1, Integer.toString(parentId));
-                rs = stm.executeQuery();
-                while (rs.next()) {
-                    int id = rs.getInt("id");
-                    String category_name = rs.getString("category_name");
-                    int parent_category = rs.getInt("parent_category");
-                    CategoryDTO dto = new CategoryDTO(id, category_name, parent_category);
-                    categoryList.add(dto);
-                }
-            }
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+            categoryList = new ArrayList<>();
+            categoryList = query.getResultList();
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void getChildCategory(int parentId) throws NamingException, SQLException {
+        String jpql = "SELECT c FROM Category c WHERE c.parentCategory = :parent_category";
+        Query query = em.createQuery(jpql);
+        query.setParameter("parent_category", parentId);
+        try {
+            categoryList = new ArrayList<>();
+            categoryList = query.getResultList();
+        } catch (Exception e) {
+
         }
     }
 }
