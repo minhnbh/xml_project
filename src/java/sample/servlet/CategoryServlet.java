@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import sample.category.Category;
 import sample.category.CategoryDAO;
 import sample.page.Page;
+import sample.product.ProductDAO;
 
 /**
  *
@@ -46,37 +47,13 @@ public class CategoryServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             HttpSession session = request.getSession();
-            CategoryDAO categoryDAO = new CategoryDAO();
             
-            // Get parent categories
-            List<Category> parentCategories = new ArrayList<>();
-            if (session.getAttribute("PARENT_CATEGORIES") == null) {
-                categoryDAO.getParentCategory();
-                parentCategories = categoryDAO.getCategoryList();
-                session.setAttribute("PARENT_CATEGORIES", parentCategories);
-            }
-
-            // Get child categories
-            if (session.getAttribute("CHILD_CATEGORIES") == null) {
-                Map<Integer, List<Category>> categoryMap = new HashMap<Integer, List<Category>>();
-
-                for (Category category : parentCategories) {
-                    categoryDAO.getChildCategory(category.getId());
-                    List<Category> childCategory = categoryDAO.getCategoryList();
-                    if (childCategory.size() > 0) {
-                        categoryMap.put(category.getId(), childCategory);
-                        session.setAttribute("CHILD_CATEGORIES", categoryMap);
-                    }
-                }
-            }
-
-            String url = Page.layoutDashboard;
+            ProductDAO productDAO = new ProductDAO();
+            
+            
+            String url = Page.layoutServlet;
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
-        } catch (SQLException ex) {
-            log("CategoryServlet: SQLException");
-        } catch (NamingException ex) {
-            log("CategoryServlet: NamingException");
         }
     }
 

@@ -9,9 +9,11 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Date;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -23,17 +25,20 @@ import javax.servlet.http.HttpServletResponse;
  * @author MinhNBHSE61805
  */
 public class ProductFilter implements Filter {
-    
+
+    ServletContext sc;
+    FilterConfig fc;
+
     private static final boolean debug = true;
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
     private FilterConfig filterConfig = null;
-    
+
     public ProductFilter() {
-    }    
-    
+    }
+
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
@@ -60,8 +65,8 @@ public class ProductFilter implements Filter {
 	    log(buf.toString());
 	}
          */
-    }    
-    
+    }
+
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
@@ -99,7 +104,7 @@ public class ProductFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        
+
 //        if (debug) {
 //            log("ProductFilter:doFilter()");
 //        }
@@ -131,14 +136,25 @@ public class ProductFilter implements Filter {
 //            sendProcessingError(problem, response);
 //        }
         HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+
         String servletPath = req.getServletPath();
-        String realRootPath = request.getServletContext().getRealPath("");
-        if (!realRootPath.isEmpty()) {
+//        String realRootPath = request.getServletContext().getRealPath("");
+//        System.out.println("#INFO " + new Date() + " - ServletPath :" + servletPath //
+//                + ", URL =" + req.getRequestURL() + " " + req.getRequestURI());
+        String[] element = servletPath.substring(1).split("/", 10);
+        System.out.println(req.getContextPath());
+//        if (element.length > 1) {
+//            res.sendRedirect(req.getContextPath() + "/" + element[0] + "/" + element[1]);
+//        } else {
             chain.doFilter(request, response);
-        } else {
-            HttpServletResponse resp = (HttpServletResponse) response;
-            resp.sendRedirect(req.getContextPath());
-        }
+//        }
+//        if (servletPath.isEmpty()) {
+//            chain.doFilter(request, response);
+//        } else {
+//            HttpServletResponse resp = (HttpServletResponse) response;
+//            resp.sendRedirect(req.getContextPath());
+//        }
     }
 
     /**
@@ -160,16 +176,16 @@ public class ProductFilter implements Filter {
     /**
      * Destroy method for this filter
      */
-    public void destroy() {        
+    public void destroy() {
     }
 
     /**
      * Init method for this filter
      */
-    public void init(FilterConfig filterConfig) {        
+    public void init(FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
-            if (debug) {                
+            if (debug) {
                 log("ProductFilter:Initializing filter");
             }
         }
@@ -188,20 +204,20 @@ public class ProductFilter implements Filter {
         sb.append(")");
         return (sb.toString());
     }
-    
+
     private void sendProcessingError(Throwable t, ServletResponse response) {
-        String stackTrace = getStackTrace(t);        
-        
+        String stackTrace = getStackTrace(t);
+
         if (stackTrace != null && !stackTrace.equals("")) {
             try {
                 response.setContentType("text/html");
                 PrintStream ps = new PrintStream(response.getOutputStream());
-                PrintWriter pw = new PrintWriter(ps);                
+                PrintWriter pw = new PrintWriter(ps);
                 pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //NOI18N
 
                 // PENDING! Localize this for next official release
-                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");                
-                pw.print(stackTrace);                
+                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");
+                pw.print(stackTrace);
                 pw.print("</pre></body>\n</html>"); //NOI18N
                 pw.close();
                 ps.close();
@@ -218,7 +234,7 @@ public class ProductFilter implements Filter {
             }
         }
     }
-    
+
     public static String getStackTrace(Throwable t) {
         String stackTrace = null;
         try {
@@ -232,9 +248,9 @@ public class ProductFilter implements Filter {
         }
         return stackTrace;
     }
-    
+
     public void log(String msg) {
-        filterConfig.getServletContext().log(msg);        
+        filterConfig.getServletContext().log(msg);
     }
-    
+
 }

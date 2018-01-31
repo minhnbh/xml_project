@@ -20,7 +20,7 @@
     <body>
         <div class="row header">
             <div style="margin-left: 75%; width: 25%; text-align: right">
-                Xin chào <%= session.getAttribute("USERNAME")%> &nbsp;
+                Xin chào ${sessionScope.FULLNAME} &nbsp;
                 <i class="fa fa-caret-down"></i>&nbsp;|&nbsp;
                 <a href="ProcessServlet?btAction=Logout"><i class="fa fa-sign-out"></i></a>
             </div>

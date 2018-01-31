@@ -34,27 +34,27 @@ public class ProcessServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            Page page = new Page();
             String button = request.getParameter("btAction");
-            String url = page.loginPage;
+            String url = Page.loginPage;
             HttpSession session = request.getSession();
-            
+//            
             if (button == null) {
-                String username = (String) session.getAttribute("USERNAME");
+                String username = (String) session.getAttribute("USER");
                 if (username != null) {
-                    url = page.dashboardServlet;
+                    url = Page.dashboardServlet;
                 }
             } else if (button.equals("Login")) {
-                url = page.loginServlet;
+                url = Page.loginServlet;
             } else if (button.equals("Logout")) {
-                url = page.logoutServlet;
+                url = Page.logoutServlet;
+            } else if (button.equals("Search")) {
+                url = Page.searchServlet;
             }
-            
+//            
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         } finally {
-            
+
         }
     }
 
